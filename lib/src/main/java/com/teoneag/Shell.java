@@ -44,17 +44,9 @@ public class Shell {
                 continue;
             }
 
-            Parameter[] parameters = command.getMethod().getParameters();
-            if (parameters.length != parts.length - 1) {
-                System.out.println("Invalid number of arguments for command '" + parts[0] + "'" + typeHelp);
-                continue;
-            }
+            Object[] args = convertArgs(parts, command.getMethod().getParameters());
+            if (args == null) continue;
 
-            Object[] args = new Object[parameters.length];
-            for (int i = 0; i < parameters.length; i++) {
-                // Todo convert the type of the pars
-                args[i] = parts[i + 1];
-            }
             try {
                 if (command.getMethod().getDeclaringClass().equals(DefaultCommands.class)) {
                     command.getMethod().invoke(defaultCommands, args);
@@ -67,10 +59,33 @@ public class Shell {
         }
     }
 
+    private Object[] convertArgs(String[] parts, Parameter[] parameters) {
+        if (parameters.length != parts.length - 1) {
+            System.out.println("Invalid number of arguments for command '" + parts[0] + "'");
+            return null;
+        }
+        Object[] args = new Object[parameters.length];
+        for (int i = 0; i < parameters.length; i++) {
+            try {
+                args[i] = TypeConverter.convert(parts[i + 1], parameters[i].getType());
+            } catch (IllegalArgumentException e) {
+                System.out.println("Wrong param type for command '" + parts[0] + "', argument nr " + i
+                    + ". Expected type " + parameters[i].getType().getSimpleName());
+                return null;
+            }
+        }
+        return args;
+    }
+
     private void addCommands(Class<?> clazz) {
         for (Method method : clazz.getDeclaredMethods()) {
-            if (!method.isAnnotationPresent(com.teoneag.annotations.Command.class)) {
+            if (!method.isAnnotationPresent(CommandAnnotation.class)) {
                 continue;
+            }
+            for (Parameter parameter : method.getParameters()) {
+                if (!TypeConverter.isSupported(parameter.getType())) {
+                    throw new RuntimeException("Unsupported parameter type: " + parameter.getType());
+                }
             }
             Command command = new Command(method);
             commands.put(Command.makeCommandName(method), command);

@@ -1,13 +1,13 @@
-package com.teoneag.annotations;
+package com.teoneag;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.PARAMETER)
+@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Param {
+public @interface CommandAnnotation {
     String name() default "";
     String description() default "";
 }

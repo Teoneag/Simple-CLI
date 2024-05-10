@@ -14,13 +14,13 @@ public class Command {
     }
 
     public static String makeCommandName(Method method) {
-        String name = method.getAnnotation(com.teoneag.annotations.Command.class).name();
+        String name = method.getAnnotation(CommandAnnotation.class).name();
         if (!name.isEmpty()) return name;
         return method.getName();
     }
 
     public static String makeCommandDescription(Method method) {
-        String description = method.getAnnotation(com.teoneag.annotations.Command.class).description();
+        String description = method.getAnnotation(CommandAnnotation.class).description();
         if (!description.isEmpty()) return description;
         return method.getName() + '(' +
             Arrays.stream(method.getParameterTypes())

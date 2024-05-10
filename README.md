@@ -97,13 +97,15 @@ class mainMenu {
 Chronological order. Planned time -> actual time
 - read similar projects (cliche) + write task + plan: 20m -> 40m
 - make annotations: 5m -> 5m
-- Write the Shell class: constructor + start method: 1h
-- test it + write tests: 30m
+- Write the Shell class: constructor + start method: 1h -> 2h
+- test it + write tests: 30m -> 9:32
 - document it: 15m
 
 ## ToDo
 
+- check parameter types: 20 min -> 9:32
 - fix deprecated gradle features
+- github description
 
 ### Refactor
 
