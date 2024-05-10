@@ -9,7 +9,7 @@
 </pre>
 <div align="right">
 
-**<font color="red">ToDo add description</font>**
+A simple library for an interactive CLI.
 
 By [Teodor Neagoe](https://github.com/Teoneag)
 
@@ -54,7 +54,7 @@ Or you can use IntelliJ IDEA to run it. (open the project and run the Main class
 
 ## Usage
 
-**<font color="red">ToDo add usage code</font>**
+This is an example of how to use the library:
 
 ```java
 class mainMenu {
@@ -74,47 +74,17 @@ class mainMenu {
 }
 ```
 
-## Task
-You are a Java senior engineer. Help me design a simple interactive Java CLI.
-This is a mock of how I want it to work. (if you think I can improve the design, please change the mock)
-
-class mainMenu {
-    @Command(name = "hello", description = "Prints hello + <name>")
-    public void test(
-            @Param(name = "name", description = "name to print")
-            String name) {
-        System.out.println("Hello " + name);
-    }
-    
-    public static void main(String[] args) {
-        Shell shell = new Shell(mainMenu.class);
-        shell.start();
-    }
-}
-
 ## Plan -> Actual: 
 
 Chronological order. Planned time -> actual time
 - read similar projects (cliche) + write task + plan: 20m -> 40m
 - make annotations: 5m -> 5m
 - Write the Shell class: constructor + start method: 1h -> 2h
-- test it + write tests: 30m -> 9:32
+- check parameter types: 20 min -> 40m
+- test it + write tests: 30m
 - document it: 15m
 
 ## ToDo
 
-- check parameter types: 20 min -> 9:32
 - fix deprecated gradle features
 - github description
-
-### Refactor
-
-- 
-
-### Fix
-
-- 
-
-### Features
-
-- 

@@ -17,6 +17,11 @@ public class Shell {
         this(clazz, clazz.getSimpleName());
     }
 
+    /**
+     * Creates a new shell with the given class and name
+     * @param clazz the class to get the commands from
+     * @param shellName the name of the shell
+     */
     public Shell(Class<?> clazz, String shellName) {
         this.shellName = shellName;
         addCommands(DefaultCommands.class);
@@ -28,6 +33,9 @@ public class Shell {
         }
     }
 
+    /**
+     * Starts the shell
+     */
     public void start() {
         String typeHelp = ". Type 'help' for the list of commands.";
         System.out.println("Welcome to " + shellName + typeHelp);
@@ -79,12 +87,15 @@ public class Shell {
 
     private void addCommands(Class<?> clazz) {
         for (Method method : clazz.getDeclaredMethods()) {
-            if (!method.isAnnotationPresent(CommandAnnotation.class)) {
-                continue;
+            if (!method.isAnnotationPresent(CommandAnnotation.class)) continue;
+
+            if (method.getReturnType() != void.class) {
+                throw new RuntimeException("Command method must return void: " + method);
             }
-            for (Parameter parameter : method.getParameters()) {
-                if (!TypeConverter.isSupported(parameter.getType())) {
-                    throw new RuntimeException("Unsupported parameter type: " + parameter.getType());
+
+            for (Parameter param : method.getParameters()) {
+                if (!TypeConverter.isSupported(param.getType())) {
+                    throw new RuntimeException("Unsupported param type: " + param.getType() + ", in method: " + method);
                 }
             }
             Command command = new Command(method);

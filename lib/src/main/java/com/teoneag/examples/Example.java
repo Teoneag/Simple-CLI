@@ -9,9 +9,9 @@ public class Example {
         System.out.println("Hello " + name);
     }
 
-    @CommandAnnotation(description = "Adds two numbers <a> and <b> and returns the result")
-    public int add(int a, int b) {
-        return a + b;
+    @CommandAnnotation(description = "Adds two numbers <a> and <b> and prints the result")
+    public void add(int a, int b) {
+        System.out.println(a + b);
     }
 
     public static void main(String[] args) {

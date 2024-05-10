@@ -9,6 +9,9 @@ public class DefaultCommands {
         this.commands = commands;
     }
 
+    /**
+     * Prints the available commands
+     */
     @CommandAnnotation(description = "Prints the available commands")
     public void help() {
         System.out.println("These are the available commands:");
@@ -17,6 +20,9 @@ public class DefaultCommands {
         }
     }
 
+    /**
+     * Exits the program
+     */
     @CommandAnnotation(description = "Exits the program")
     public void exit() {
         System.out.println("Thank you for using Simple-CLI. Goodbye!");

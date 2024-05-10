@@ -13,12 +13,22 @@ public class Command {
         this.description = makeCommandDescription(method);
     }
 
+    /**
+     * If the method got a name from the annotation, use it. Otherwise, use the method name.
+     * @param method to get the name from
+     * @return the name
+     */
     public static String makeCommandName(Method method) {
         String name = method.getAnnotation(CommandAnnotation.class).name();
         if (!name.isEmpty()) return name;
         return method.getName();
     }
 
+    /**
+     * If the method got a description from the annotation, use it. Otherwise, use the method name and parameters.
+     * @param method to get the description from
+     * @return the description
+     */
     public static String makeCommandDescription(Method method) {
         String description = method.getAnnotation(CommandAnnotation.class).description();
         if (!description.isEmpty()) return description;
