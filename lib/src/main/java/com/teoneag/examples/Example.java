@@ -1,15 +1,15 @@
 package com.teoneag.examples;
 
-import com.teoneag.CommandAnnotation;
+import com.teoneag.Command;
 import com.teoneag.Shell;
 
 public class Example {
-    @CommandAnnotation(name = "hello", description = "Prints hello + <name>")
+    @Command(name = "hello", description = "Prints hello + <name>")
     public void test(String name) {
         System.out.println("Hello " + name);
     }
 
-    @CommandAnnotation(description = "Adds two numbers <a> and <b> and prints the result")
+    @Command(description = "Adds two numbers <a> and <b> and prints the result")
     public void add(int a, int b) {
         System.out.println(a + b);
     }

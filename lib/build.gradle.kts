@@ -1,7 +1,10 @@
-
 plugins {
     `java-library`
+    `maven-publish`
 }
+
+group = "com.teoneag"
+version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -20,6 +23,18 @@ dependencies {
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            from(components["java"])
+            artifactId = "simple-cli"
+        }
+    }
+    repositories {
+        mavenLocal()
     }
 }
 

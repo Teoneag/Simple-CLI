@@ -19,12 +19,10 @@ By [Teodor Neagoe](https://github.com/Teoneag)
 
 ## Getting Started
 
-### Prerequisites
+### 0. Prerequisites
 
 - Os: Windows
-
-
-## Download
+- Java: 22
 
 ### 1. Clone the repository
 
@@ -32,7 +30,13 @@ By [Teodor Neagoe](https://github.com/Teoneag)
 git clone https://github.com/Teoneag/Simple-CLI
 ```
 
-### 2. Build & run
+### 2. Publish the library to your local maven repository
+
+```bash
+./gradlew publish
+```
+
+### Or alternatively you can run the example
 
 To build it run
 ```bash
@@ -74,6 +78,14 @@ class mainMenu {
 }
 ```
 
+You just need to annotate the methods you want to be commands with `@Command`.
+Then those methods will be available in the shell.
+
+## Features
+
+- automatic help command generation (all functions annotated with @Command will be shown with name and description)
+- automatic parameter type checking (if the user inputs a wrong type the shell will tell them)
+
 ## Plan -> Actual: 
 
 Chronological order. Planned time -> actual time
@@ -83,8 +95,13 @@ Chronological order. Planned time -> actual time
 - check parameter types: 20 min -> 40m
 - test it + write tests: 30m
 - document it: 15m
+- github description
+- add the nr of required arguments to invalid number of arguments: 5m -> 4m
+- test it: 30m -> 14m
 
 ## ToDo
 
+- fix "Private method 'reset()' is never used"
+- publish it: 30m -> 12:00
+- make everything except command and shell private
 - fix deprecated gradle features
-- github description

@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class Shell {
     private final String shellName;
     private Object commandObject = null;
-    private final Map<String, Command> commands = new HashMap<>();
+    private final Map<String, CommandInfo> commands = new HashMap<>();
     private final DefaultCommands defaultCommands = new DefaultCommands(commands);
 
     public Shell(Class<?> clazz) {
@@ -19,7 +19,8 @@ public class Shell {
 
     /**
      * Creates a new shell with the given class and name
-     * @param clazz the class to get the commands from
+     *
+     * @param clazz     the class to get the commands from
      * @param shellName the name of the shell
      */
     public Shell(Class<?> clazz, String shellName) {
@@ -45,21 +46,21 @@ public class Shell {
         while (true) {
             String line = userInput.nextLine();
             String[] parts = line.split("\\s+");
-            Command command = commands.get(parts[0]);
+            CommandInfo commandInfo = commands.get(parts[0]);
 
-            if (command == null) {
+            if (commandInfo == null) {
                 System.out.println("Command not found: '" + parts[0] + "'" + typeHelp);
                 continue;
             }
 
-            Object[] args = convertArgs(parts, command.getMethod().getParameters());
+            Object[] args = convertArgs(parts, commandInfo.getMethod().getParameters());
             if (args == null) continue;
 
             try {
-                if (command.getMethod().getDeclaringClass().equals(DefaultCommands.class)) {
-                    command.getMethod().invoke(defaultCommands, args);
+                if (commandInfo.getMethod().getDeclaringClass().equals(DefaultCommands.class)) {
+                    commandInfo.getMethod().invoke(defaultCommands, args);
                 } else {
-                    command.getMethod().invoke(commandObject, args);
+                    commandInfo.getMethod().invoke(commandObject, args);
                 }
             } catch (IllegalAccessException | InvocationTargetException e) {
                 throw new RuntimeException(e);
@@ -69,7 +70,8 @@ public class Shell {
 
     private Object[] convertArgs(String[] parts, Parameter[] parameters) {
         if (parameters.length != parts.length - 1) {
-            System.out.println("Invalid number of arguments for command '" + parts[0] + "'");
+            System.out.println("Invalid number of arguments (expected: " + parameters.length + ", got: "
+                    + (parts.length - 1) + ") " + "for command '" + parts[0] + "'");
             return null;
         }
         Object[] args = new Object[parameters.length];
@@ -78,7 +80,7 @@ public class Shell {
                 args[i] = TypeConverter.convert(parts[i + 1], parameters[i].getType());
             } catch (IllegalArgumentException e) {
                 System.out.println("Wrong param type for command '" + parts[0] + "', argument nr " + i
-                    + ". Expected type " + parameters[i].getType().getSimpleName());
+                        + ". Expected type " + parameters[i].getType().getSimpleName());
                 return null;
             }
         }
@@ -87,7 +89,7 @@ public class Shell {
 
     private void addCommands(Class<?> clazz) {
         for (Method method : clazz.getDeclaredMethods()) {
-            if (!method.isAnnotationPresent(CommandAnnotation.class)) continue;
+            if (!method.isAnnotationPresent(Command.class)) continue;
 
             if (method.getReturnType() != void.class) {
                 throw new RuntimeException("Command method must return void: " + method);
@@ -98,8 +100,8 @@ public class Shell {
                     throw new RuntimeException("Unsupported param type: " + param.getType() + ", in method: " + method);
                 }
             }
-            Command command = new Command(method);
-            commands.put(Command.makeCommandName(method), command);
+            CommandInfo commandInfo = new CommandInfo(method);
+            commands.put(CommandInfo.makeCommandName(method), commandInfo);
         }
     }
 }
