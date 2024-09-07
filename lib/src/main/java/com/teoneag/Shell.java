@@ -12,6 +12,7 @@ public class Shell {
     private Object commandObject = null;
     private final Map<String, CommandInfo> commands = new HashMap<>();
     private final DefaultCommands defaultCommands = new DefaultCommands(commands);
+    private boolean isRunning = true;
 
     public Shell(Class<?> clazz) {
         this(clazz, clazz.getSimpleName());
@@ -43,7 +44,7 @@ public class Shell {
 
         Scanner userInput = new Scanner(System.in);
 
-        while (true) {
+        while (isRunning) {
             String line = userInput.nextLine();
             String[] parts = line.split("\\s+");
             CommandInfo commandInfo = commands.get(parts[0]);
@@ -62,6 +63,8 @@ public class Shell {
                 } else {
                     commandInfo.getMethod().invoke(commandObject, args);
                 }
+
+                if (commandInfo.getMethod().getAnnotation(Command.class).stop()) isRunning = false;
             } catch (IllegalAccessException | InvocationTargetException e) {
                 throw new RuntimeException(e);
             }

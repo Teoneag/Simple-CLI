@@ -101,6 +101,7 @@ Chronological order. Planned time -> actual time
 
 ## ToDo
 
+- fix help order
 - fix "Private method 'reset()' is never used"
 - publish it: 30m -> 12:00
 - make everything except command and shell private
