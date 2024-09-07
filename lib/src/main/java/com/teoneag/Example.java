@@ -1,9 +1,6 @@
-package com.teoneag.examples;
+package com.teoneag;
 
-import com.teoneag.Command;
-import com.teoneag.Shell;
-
-public class Example {
+class Example {
     @Command(name = "hello", description = "Prints hello + <name>")
     public void otherName(String name) {
         System.out.println("Hello " + name);

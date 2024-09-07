@@ -14,6 +14,10 @@ public class Shell {
     private final DefaultCommands defaultCommands = new DefaultCommands(commands);
     private boolean isRunning = true;
 
+    /**
+     * Creates a new shell with the given class name
+     * @param clazz the class to get the commands from
+     */
     public Shell(Class<?> clazz) {
         this(clazz, clazz.getSimpleName());
     }
@@ -36,7 +40,7 @@ public class Shell {
     }
 
     /**
-     * Starts the shell
+     * Starts the shell with the commands from the class + DefaultCommands
      */
     public void start() {
         String typeHelp = ". Type 'help' for the list of commands.";
