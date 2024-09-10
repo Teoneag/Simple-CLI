@@ -5,3 +5,6 @@
 build
 
 .idea
+
+# Here I have the gnu key, password and the keyring
+gradle.properties
