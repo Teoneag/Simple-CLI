@@ -12,6 +12,7 @@ class Example {
     }
 
     @Command(name = "exit", description = "Exits the shell", stop = true)
+    public void exit() {}
 
     public static void main(String[] args) {
         Shell shell = new Shell(Example.class);

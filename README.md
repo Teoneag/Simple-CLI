@@ -101,6 +101,7 @@ Chronological order. Planned time -> actual time
 
 ## ToDo
 
+- make exit not need a function
 - fix help order
 - fix "Private method 'reset()' is never used"
 - publish it: 30m -> 12:00

@@ -13,7 +13,7 @@ enum TypeConverter {
     private final Class<?> type;
     private final Function<String, ?> converter;
     private static final Map<Class<?>, TypeConverter> typeMap = Arrays.stream(values())
-        .collect(Collectors.toMap(converter -> converter.type, converter -> converter));
+            .collect(Collectors.toMap(converter -> converter.type, converter -> converter));
 
     TypeConverter(Class<?> type, Function<String, ?> converter) {
         this.type = type;
@@ -37,15 +37,17 @@ enum TypeConverter {
      * @param type  to convert to
      * @return the converted value
      */
-    public static Object convert(String value, Class<?> type) {
-        TypeConverter converter = typeMap.get(type);
-        if (converter != null) {
-            try {
-                return converter.converter.apply(value);
-            } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("Invalid value for type " + type.getSimpleName() + ": " + value);
-            }
+    @SuppressWarnings("unchecked")
+    public static <T> T convert(String value, Class<T> type) {
+        if (value == null) throw new IllegalArgumentException("Value cannot be null for conversion");
+
+        final TypeConverter converter = typeMap.get(type);
+        if (converter == null) throw new IllegalArgumentException("Unsupported type: " + type);
+
+        try {
+            return (T) converter.converter.apply(value);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Invalid value for type " + type.getSimpleName() + ": " + value);
         }
-        throw new IllegalArgumentException("Unsupported type: " + type);
     }
 }
